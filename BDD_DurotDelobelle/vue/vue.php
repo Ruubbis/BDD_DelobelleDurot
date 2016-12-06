@@ -1,45 +1,81 @@
 <?php
 
-include('../modele/fonctionsBase.php');
+function displaySalle($data){ 
+?>
+  <table class="table">
+  	<thead>
+  	  <tr><th>Numero</th><th>Capacite</th><th>Temperature</th></tr>
+  	</thead>
+  	<tbody>
+  	<?php 
+  	while ($row = pg_fetch_row($data)){
+  		print("<tr><td>".$row[0]."</td><td>".$row[1]."</td><td>".$row[2]."</td></tr>");
+  	}
+  	?>
+	</tbody>
+  </table>
+<?php 
+}
+function test(){
+	print("test");
+}
 
-
-function starCode(){
-	for($i=0;$i<=100;$i++){
-		print(".stars-".$i.":after { width: ".$i."%; }");
+/*function listeDomaines($data,$domaine){	
+	while ($row = pg_fetch_row($data)){
+		if($row[0]==$domaine){
+		print("<option selected value=".$row[0].">".$row[1]."</option>");
+		}
+		else{
+			print("<option value=".$row[0].">".$row[1]."</option>");
+		}
 	}
 }
 
-function starPrint($note){
-	print('<div><span class="stars-container stars-'.$note.'">★★★★★</span></div>');
+
+function listeEcoles($selected){
+	$data = getEcoles();
+	while ($row = pg_fetch_row($data)){
+		if(rtrim($row[0])==$selected){
+			print("<option selected value=".$row[0].">".$row[0]."</option>");
+		}
+		else{
+			print("<option value=".$row[0].">".$row[0]."</option>");
+		}
+	}
 }
 
 
 function mapMarker($data){
 	while ($row = pg_fetch_row($data)) {
-		print("plotll = new L.LatLng(".$row[3].",".$row[4].", true);\n");
+		print("plotll = new L.LatLng("."$row[2]".",".$row[3].", true);\n");
 		print("plotmark = new L.Marker(plotll);\n");
 		print("map.addLayer(plotmark);\n");
-		print("plotmark.bindPopup('");
-		print('<div id="info">');
-		print(rtrim($row[1])."<br>");
-		print(rtrim($row[7])." - ".rtrim($row[8])."<br>");
-		/*if(rtrim($row[2]) != ""){
-			print("<a href=".rtrim($row[2]).">Site Web</a><br>");
-		}
-		if($row[6] != ""){
-			print("Telephone : ".$row[6]."<br>");
-		}
-		print("Prix moyen :".$row[5]."€<br>");
-		$moy = moyenne($row[0]);
-		//if ($moy!=-1){
-		//	starPrint(intval($moy * 100 / 5));
-		//}*/
-		print("<a href=\"./pages/comments.php?id=$row[0]\">Plus d\'info</a>");
-		print("</div>');\n");
+		print("plotmark.bindPopup('<a href=".$row[1].">Polytech ".$row[0]."</a>');\n");
 		}
 }
 
+function mapMeteoMarker($data){
+	while ($row = pg_fetch_row($data)) {
+		$nom = rtrim($row[0]);
+		print("plotll = new L.LatLng(".$row[2].",".$row[3].", true);\n");
+		print("plotmark = new L.Marker(plotll);\n");
+		print("map.addLayer(plotmark);\n");
+		print("plotmark.bindPopup(\"");
+		displayMeteoData($nom);
+		print("\");");
+	}
+}
+
+function kelvin2Celsius($temp){
+	return $temp - 273.15;
+}
 
 
-
-?>
+function displayMeteoData($nom){
+	$meteo = getDonneesMeteo($nom);
+	print("<a href='".rtrim($meteo['url'])."'>Polytech ".$nom."</a><br>");
+	print("Description : ".$meteo['description'] ."<br>");
+	print("Temperature : ".kelvin2Celsius($meteo['temperature'])." °C<br>");
+	print("<img src= '".$meteo['urlIcon']."'/><br>");
+}
+*/?>

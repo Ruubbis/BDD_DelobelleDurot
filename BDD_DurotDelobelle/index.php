@@ -19,6 +19,11 @@
 
 <body class="container">
 <h1>Projet Base de Donnée</h1>
+
+<?php 
+	displaySalle(getSalles());
+?>
+
 </body>
 
 
