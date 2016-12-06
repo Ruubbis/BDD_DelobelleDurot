@@ -1,23 +1,14 @@
 <?php
 
-function afficheTablesEcoles($data,$domaine){ ?>
+function displaySalle($data,$domaine){ ?>
   <table class="table">
   	<thead>
-  	  <tr><th>Nom</th><th>URL</th><th>Latitude</th><th>Longitude</th></tr>
+  	  <tr><th>Numero</th><th>Capacite</th><th>Temperature</th></tr>
   	</thead>
   	<tbody>
 <?php  
-	$listEcole = array();
-	if($domaine != "Tous"){
-		$ecoleDomaine = getEcolesParDomaine($domaine);
-		while ($row = pg_fetch_row($ecoleDomaine)){
-			$listEcole[]=$row[0];//Ne recupere que les noms des ecoles
-		}
-	}
-	
 	while ($row = pg_fetch_row($data)) {
-		if(in_array($row[0],$listEcole) OR $domaine=="Tous"){ //Verifie les noms des ecoles
-		print("<tr><td>".$row[0]."</td><td><a href=".$row[1].">".$row[1]."</a></td><td>".$row[2]."</td><td>".$row[3]."</td></tr>");
+		print("<tr><td>".$row[0]."</td><td>".$row[1]."</td><td>".$row[2]."</td></tr>");
 		}
 	}
 ?>
@@ -27,8 +18,7 @@ function afficheTablesEcoles($data,$domaine){ ?>
   
 <?php
 }
-
-function listeDomaines($data,$domaine){	
+/*function listeDomaines($data,$domaine){	
 	while ($row = pg_fetch_row($data)){
 		if($row[0]==$domaine){
 		print("<option selected value=".$row[0].">".$row[1]."</option>");
@@ -86,5 +76,5 @@ function displayMeteoData($nom){
 	print("Temperature : ".kelvin2Celsius($meteo['temperature'])." °C<br>");
 	print("<img src= '".$meteo['urlIcon']."'/><br>");
 }
-
+*/
 ?>

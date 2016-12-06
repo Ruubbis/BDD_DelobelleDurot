@@ -12,37 +12,13 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <?php include('modele/fonctionsBase.php'); ?>
-<?php include('vue/vue.php'); ?>
-
-<script type="text/javascript">
-  function init_markers() {
-	  var plotll, plotmark, url,nom ;
-	  var map = new L.Map('map');
-	  
-	  // Utilisation de OpenStreetmap pour les cartes
-	  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-	  var osmAttrib='Map data <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-	  var osm = new L.Til<table class="tableLayer(osmUrl, {minZoom: 3, maxZoom: 150, attribution: osmAttrib});
-	  map.addLayer(osm);
-
-	<?php 
-		mapMarker(getKebab());
-	?>
-      // carte centree sur dernier point
-	  map.setView(plotll,13);  
-    }
- </script>
- 
+<?php include('vue/vue.php');?>
  
 </head>
 
 
-<body class="container" onLoad="init_markers();">
-<h1>KebabStreetMap</h1>
-	<section>
-  		<div id="map"> </div>
-	</section>   
-
+<body class="container">
+<h1>Projet Base de Donnée</h1>
 </body>
 
 
