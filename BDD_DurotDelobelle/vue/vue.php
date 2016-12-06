@@ -3,11 +3,7 @@
 function displaySalle($data){ 
 	print("<h3>Liste des salles</h3>");
 	?>
-<<<<<<< HEAD
-  <table class="table table-bordered">
-=======
-  <table class="table table-bordered table-hover">
->>>>>>> 0ccf46e353f96357f5b8d1704bf09aa96e90a754
+  	<table class="table table-bordered table-hover">
   	<thead>
   	  <tr class="active"><th>Numero</th><th>Capacite</th><th>Temperature</th></tr>
   	</thead>
