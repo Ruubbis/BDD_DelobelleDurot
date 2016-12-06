@@ -9,8 +9,6 @@
 <link href="./css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <?php include('modele/fonctionsBase.php'); ?>
 <?php include('vue/vue.php');?>
  
