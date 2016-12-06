@@ -18,4 +18,22 @@ function getSalles(){
 	$result = pg_query($db,$query) or die ('Echec de la requete :'. pg_last_error());
 	return $result;
 }
+
+function listeSalle(){
+	$list = array();
+	$salle = getSalles();
+	while ($row = pg_fetch_row($salle)){
+		$list[]=$row[0];
+	}
+	return $list;
+}
+
+
+function getcontentSalle(){
+	$db=connexion('Projet_DelobelleDurot');
+	$query = "SELECT * FROM contenu;";
+	$result = pg_query($db,$query) or die ('Echec de la requete :'. pg_last_error());
+	return $result;
+}
+
 ?>

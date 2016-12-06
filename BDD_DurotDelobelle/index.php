@@ -19,11 +19,16 @@
 
 <body class="container">
 <h1>Projet Base de Donnée</h1>
-
+<br><br>
 <?php 
 	displaySalle(getSalles());
+	foreach (listeSalle() as $value){
+		contenuSalle(getcontentSalle(),$value);
+	}
 ?>
 
+
+</div>
 </body>
 
 
