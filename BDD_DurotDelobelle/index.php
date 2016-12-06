@@ -18,7 +18,7 @@
 
 
 <body class="container">
-<h1>Projet Base de Donnée</h1>
+<h1>Projet Base de Données</h1>
 <br><br>
 <?php 
 	displaySalle(getSalles());
