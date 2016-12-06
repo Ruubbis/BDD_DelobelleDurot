@@ -11,7 +11,7 @@ CREATE TABLE produit(code VARCHAR PRIMARY KEY, libelle VARCHAR, temp_min FLOAT, 
 CREATE TABLE stock(produit VARCHAR REFERENCES produit, support VARCHAR REFERENCES palette, quantite INT NOT NULL, PRIMARY KEY(produit,support));
 
 
-INSERT INTO salle (numero, capacite,temp) VALUES ('A10',3,7),('B08',2,10),('C42',5,20);
+INSERT INTO salle (numero, capacite,temp) VALUES ('A10',4,7),('B08',2,10),('C42',5,20);
 INSERT INTO produit (code, libelle, temp_min, temp_max) VALUES  ('AE58FA','Eclair au chocolat',4,8),
 								('CF2FE8','Croissant',8,16),
 								('G2HISP','Baguette',6,12), 
@@ -32,7 +32,7 @@ CREATE OR REPLACE VIEW listeSalle AS(SELECT * from salle ORDER BY temp ASC, capa
 
 
 CREATE OR REPLACE VIEW contenu AS(
-SELECT salle.numero, salle.temp AS TempSalle, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, stock.quantite 
+SELECT salle.numero, salle.temp AS TempSalle,salle.capacite, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, stock.quantite 
 FROM salle, produit, palette, stock 
 WHERE stock.support = palette.code 
 AND palette.lieu = salle.numero 
