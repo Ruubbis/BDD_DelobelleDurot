@@ -9,8 +9,8 @@
 <link href="./css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
-<?php include('modele/fonctionsBase.php'); ?>
-<?php include('vue/vue.php');?>
+<?php include('fonctionsBase.php'); ?>
+<?php include('vue.php');?>
  
 </head>
 
