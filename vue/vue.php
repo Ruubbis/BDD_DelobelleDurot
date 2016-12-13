@@ -18,6 +18,8 @@ function displaySalle($data){
 <?php 
 }
 
+
+
 function remplissage($salle){
 	$content = getcontentSalle();
 	$contenu;
@@ -31,6 +33,8 @@ function remplissage($salle){
 	return (($contenu/$max)*100);
 }
 
+
+
 function printState($value){
 	if ($value<=60){
 		print("progress-bar-success");
@@ -43,36 +47,36 @@ function printState($value){
 	}
 }
 
+
+
 function contenuSalle($data,$salle){
-	print("<h3>Contenu de la salle ".$salle."</h3>")
+		print("<h3>Contenu de la salle ".$salle."</h3>");
 	
 	?>
-	<div class="progress">
-  	<div class="progress-bar <?php printState(remplissage($salle))?>" role="progressbar" aria-valuenow="70" 
-  	aria-valuemin="0" aria-valuemax="100" style="width:<?php print(remplissage($salle));?>%"><?php print(remplissage($salle));?>%</div>
-	</div>
-	
-	<table class="table table-bordered table-hover">
-  	<thead>
-  	  <tr class="active"><th>Numero Palette</th><th>Code Produit</th><th>Temperature Mini</th><th>Temperature Max</th><th>Quantite</th></tr>
-  	</thead>
-  	<tbody>
-  	<?php 
-	while ($row = pg_fetch_row($data)){
-		if($row[0]==$salle){
-			if($row[1]>=$row[5] && $row[1]<=$row[6]){
-				print("<tr><td>".$row[3]."</td><td>".$row[4]."</td><td>".$row[5]."</td><td>".$row[6]."</td><td>".$row[7]."</td></tr>\n");
-			}	
-			else{
-				print("<tr class=\"danger\"><td>".$row[3]."</td><td>".$row[4]."</td><td>".$row[5]."</td><td>".$row[6]."</td><td>".$row[7]."</td></tr>\n");	
+		<div class="progress">
+  			<div class="progress-bar <?php printState(remplissage($salle))?>" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php print(remplissage($salle));?>%"><?php print(remplissage($salle));?>%
+			</div>
+		</div>
+		<table class="table table-bordered table-hover">
+  		<thead>
+  	  		<tr class="active"><th>Numero Palette</th><th>Code Produit</th><th>Temperature Mini</th><th>Temperature Max</th><th>Quantite</th></tr>
+  		</thead>
+  		<tbody>
+  			<?php 
+			while ($row = pg_fetch_row($data)){
+				if($row[0]==$salle){
+					if($row[8]=="t"){
+						print("<tr><td>".$row[3]."</td><td>".$row[4]."</td><td>".$row[5]."</td><td>".$row[6]."</td><td>".$row[7]."</td></tr>\n");
+					}	
+					else{
+						print("<tr class=\"danger\"><td>".$row[3]."</td><td>".$row[4]."</td><td>".$row[5]."</td><td>".$row[6]."</td><td>".$row[7]."</td></tr>\n");	
+					}
+				}
 			}
-		}
-	}
 	?>
-	</tbody>
-  </table>
+		</tbody>
+  		</table>
+
 <?php 
 }
-
-
 ?>

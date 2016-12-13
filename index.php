@@ -19,14 +19,17 @@
 <h1>Projet Base de Données</h1>
 <br><br>
 <?php 
+	error_reporting(E_ALL);
+	
 	displaySalle(getSalles());
+
 	foreach (listeSalle() as $value){
 		contenuSalle(getcontentSalle(),$value);
 	}
 ?>
 
 
-</div>
+
 </body>
 
 
