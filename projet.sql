@@ -1,5 +1,6 @@
 --createdb Projet_DelobelleDurot
 
+DROP VIEW IF EXISTS etatSalle;
 DROP VIEW IF EXISTS contenu;
 DROP VIEW IF EXISTS listeSalle;
 DROP TABLE IF EXISTS lot;
@@ -23,7 +24,7 @@ INSERT INTO palette VALUES 	('BB08','A10'),
 				('1705','A10'),
 				('ESX3','B08'),
 				('NATE','B08'),
-				('DSCD', NULL);
+				('DSCD',NULL);
 INSERT INTO lot VALUES('AE58FA','BB08',30),
 			('G2HISP','NATE',50),
 			('G2HISP','1705',80),
@@ -45,10 +46,10 @@ ORDER BY salle.numero;
 
 
 CREATE OR REPLACE VIEW etatSalle AS(
-SELECT salle.numero, salle.temp AS TempSalle, salle.capacite, CAST(CASE WHEN (COUNT(palette.lieu)=salle.capacite) THEN TRUE ELSE FALSE END AS BOOLEAN) pleine
-FROM salle, palette
-WHERE palette.lieu = salle.numero 
-ORDER BY salle.numero;
-
+SELECT DISTINCT salle.numero, salle.temp AS TempSalle, salle.capacite, 
+CAST(CASE WHEN salle.capacite IN(SELECT COUNT(DISTINCT p1.code) FROM salle as s1, palette as p1  WHERE s1.numero=p1.lieu GROUP BY s1.numero) THEN TRUE ELSE FALSE END AS BOOLEAN)pleine
+FROM salle , palette
+WHERE palette.lieu = salle.numero)
+ORDER by salle.numero;
 
 

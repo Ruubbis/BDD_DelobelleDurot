@@ -23,7 +23,7 @@
 	
 	displaySalle(getSalles());
 
-	foreach (listeSalle() as $value){
+	foreach (listeSalle() as $value){ 
 		contenuSalle(getcontentSalle(),$value);
 	}
 ?>
