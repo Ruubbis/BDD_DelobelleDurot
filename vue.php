@@ -59,7 +59,7 @@ function contenuSalle($data,$salle){
 		</div>
 		<table class="table table-bordered table-hover">
   		<thead>
-  	  		<tr class="active"><th>Numero Palette</th><th>Code Produit</th><th>Temperature Mini</th><th>Temperature Max</th><th>Quantite</th></tr>
+  	  		<tr class="active"><th>Numero Palette</th><th>Code Produit</th><th>Temp Min</th><th>Temp Max</th><th>Quantite</th></tr>
   		</thead>
   		<tbody>
   			<?php 
