@@ -11,8 +11,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<?php include('fonctionsBase.php'); ?>
-<?php include('vue.php');?>
+<?php 
+include('fonctionsBase.php'); 
+include('vue.php');
+?>
  
 </head>
 
@@ -44,9 +46,6 @@
 	}
 ?>
 </div>
-
-
 </body>
-
 
 </html>

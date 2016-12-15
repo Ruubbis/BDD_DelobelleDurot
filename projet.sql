@@ -16,7 +16,7 @@ CREATE TABLE lot(produit VARCHAR REFERENCES produit, support VARCHAR REFERENCES 
 
 
 INSERT INTO salle (numero, capacite,temp) VALUES ('A10',4,7),('B08',2,10),('C42',5,20);
-INSERT INTO produit (code, libelle, temp_min, temp_max) VALUES  ('AE58FA','Eclair au chocolat',4,8),
+INSERT INTO produit (code, libelle, temp_min, temp_max) VALUES  ('AE58FA','Eclair au chocolat',4,9),
 								('CF2FE8','Croissant',8,16),
 								('G2HISP','Baguette',6,12), 
 								('QSD487','Pain au chocolat',5,14);
@@ -30,14 +30,15 @@ INSERT INTO lot VALUES('AE58FA','BB08',30),
 			('G2HISP','1705',80),
 			('CF2FE8','NATE',30),
 			('CF2FE8','1705',40),
-			('QSD487','DSCD',30);
+			('QSD487','DSCD',30),
+			('QSD487','ESX3',20);
 
 CREATE OR REPLACE VIEW listeSalle AS(SELECT * from salle ORDER BY temp ASC, capacite DESC);
 
 
 CREATE OR REPLACE VIEW contenu AS(
 SELECT salle.numero, salle.temp AS TempSalle,salle.capacite, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, lot.quantite, 
-CAST(CASE WHEN (produit.temp_min <= salle.temp AND produit.temp_max >= salle.temp) THEN TRUE ELSE FALSE END AS BOOLEAN) etat
+CAST(CASE WHEN (produit.temp_min <= salle.temp AND produit.temp_max >= salle.temp) THEN TRUE ELSE FALSE END AS BOOLEAN)etat
 FROM salle, produit, palette, lot 
 WHERE lot.support = palette.code 
 AND palette.lieu = salle.numero 
@@ -46,10 +47,9 @@ ORDER BY salle.numero;
 
 
 CREATE OR REPLACE VIEW etatSalle AS(
-SELECT DISTINCT salle.numero, salle.temp AS TempSalle, salle.capacite, 
-CAST(CASE WHEN salle.capacite IN(SELECT COUNT(DISTINCT p1.code) FROM salle as s1, palette as p1  WHERE s1.numero=p1.lieu GROUP BY s1.numero) THEN TRUE ELSE FALSE END AS BOOLEAN)pleine
-FROM salle , palette
-WHERE palette.lieu = salle.numero)
+SELECT DISTINCT salle.numero AS SalleNum, salle.temp AS SalleTemp, salle.capacite AS SalleCapa, 
+CAST(CASE WHEN salle.capacite IN(SELECT COUNT(DISTINCT p1.code) FROM salle as s1, palette as p1  WHERE s1.numero=p1.lieu AND s1.numero=salle.numero GROUP BY s1.numero) THEN TRUE ELSE FALSE END AS BOOLEAN) SallePleine, (SELECT p2.code FROM palette AS p2 WHERE p2.lieu IS NULL) AS PaletteCode
+FROM salle , palette)
 ORDER by salle.numero;
 
 
