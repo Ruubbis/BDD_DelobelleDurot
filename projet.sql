@@ -37,19 +37,32 @@ CREATE OR REPLACE VIEW listeSalle AS(SELECT * from salle ORDER BY temp ASC, capa
 
 
 CREATE OR REPLACE VIEW contenu AS(
-SELECT salle.numero, salle.temp AS TempSalle,salle.capacite, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, lot.quantite, 
-CAST(CASE WHEN (produit.temp_min <= salle.temp AND produit.temp_max >= salle.temp) THEN TRUE ELSE FALSE END AS BOOLEAN)etat
-FROM salle, produit, palette, lot 
-WHERE lot.support = palette.code 
-AND palette.lieu = salle.numero 
-AND produit.code = lot.produit)
+	SELECT salle.numero, salle.temp AS TempSalle,salle.capacite, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, lot.quantite, 
+	CAST(CASE WHEN (produit.temp_min <= salle.temp AND produit.temp_max >= salle.temp) THEN TRUE ELSE FALSE END AS BOOLEAN)etat
+	FROM salle, produit, palette, lot 
+	WHERE lot.support = palette.code 
+	AND palette.lieu = salle.numero 
+	AND produit.code = lot.produit)
 ORDER BY salle.numero;
 
 
 CREATE OR REPLACE VIEW etatSalle AS(
-SELECT DISTINCT salle.numero AS SalleNum, salle.temp AS SalleTemp, salle.capacite AS SalleCapa, 
-CAST(CASE WHEN salle.capacite IN(SELECT COUNT(DISTINCT p1.code) FROM salle as s1, palette as p1  WHERE s1.numero=p1.lieu AND s1.numero=salle.numero GROUP BY s1.numero) THEN TRUE ELSE FALSE END AS BOOLEAN) SallePleine, (SELECT p2.code FROM palette AS p2 WHERE p2.lieu IS NULL) AS PaletteCode
-FROM salle , palette)
-ORDER by salle.numero;
+	SELECT S.numero AS SalleNum, S.temp AS SalleTemp, S.capacite AS SalleCapa, X.quantite, CAST(CASE WHEN S.capacite = X.quantite THEN TRUE ELSE FALSE END AS BOOLEAN) pleine
+	FROM (
+		SELECT aux.numero, SUM(aux.qtt) AS quantite 
+		FROM(
+			SELECT S.numero, 
+			CASE
+				WHEN palette.code IS NOT NULL
+				THEN 1
+				ELSE 0
+				END
+			AS qtt
+			FROM palette RIGHT JOIN salle AS S ON palette.lieu = S.numero
+		)AS aux
+		GROUP BY aux.numero
+	)as X
+	INNER JOIN salle AS S ON S.numero = X.numero )
+ORDER by S.numero;
 
 
