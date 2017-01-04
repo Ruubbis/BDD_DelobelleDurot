@@ -3,6 +3,7 @@
 DROP VIEW IF EXISTS etatSalle;
 DROP VIEW IF EXISTS contenu;
 DROP VIEW IF EXISTS listeSalle;
+DROP VIEW IF EXISTS paletteSeule;
 DROP TABLE IF EXISTS lot;
 DROP TABLE IF EXISTS palette;
 DROP TABLE IF EXISTS produit;
@@ -33,10 +34,10 @@ INSERT INTO lot VALUES('AE58FA','BB08',30),
 			('QSD487','DSCD',30),
 			('QSD487','ESX3',20);
 
-CREATE OR REPLACE VIEW listeSalle AS(SELECT * from salle ORDER BY temp ASC, capacite DESC);
+CREATE VIEW listeSalle AS(SELECT * from salle ORDER BY temp ASC, capacite DESC);
 
 
-CREATE OR REPLACE VIEW contenu AS(
+CREATE VIEW contenu AS(
 	SELECT salle.numero, salle.temp AS TempSalle,salle.capacite, palette.code AS palette, produit.code AS produit, produit.temp_min, produit.temp_max, lot.quantite, 
 	CAST(CASE WHEN (produit.temp_min <= salle.temp AND produit.temp_max >= salle.temp) THEN TRUE ELSE FALSE END AS BOOLEAN)etat
 	FROM salle, produit, palette, lot 
@@ -44,6 +45,13 @@ CREATE OR REPLACE VIEW contenu AS(
 	AND palette.lieu = salle.numero 
 	AND produit.code = lot.produit)
 ORDER BY salle.numero;
+
+
+CREATE VIEW paletteSeule AS(
+	SELECT pal.code, MAX(prod.temp_min) AS tempmin, MIN(prod.temp_max) AS tempmax
+	FROM palette AS pal, produit AS prod, lot AS l
+	WHERE pal.code = l.support AND prod.code = l.produit AND pal.lieu IS NULL
+	GROUP BY pal.code ORDER BY pal.code);
 
 
 CREATE OR REPLACE VIEW etatSalle AS(
@@ -62,7 +70,8 @@ CREATE OR REPLACE VIEW etatSalle AS(
 		)AS aux
 		GROUP BY aux.numero
 	)as X
-	INNER JOIN salle AS S ON S.numero = X.numero )
+	INNER JOIN salle AS S ON S.numero = X.numero)
 ORDER by S.numero;
+
 
 

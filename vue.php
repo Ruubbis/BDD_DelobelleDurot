@@ -21,13 +21,13 @@ function displaySalle($data){
 
 
 function remplissage($salle){
-	$content = getcontentSalle();
+	$content = getetatSalle();
 	$contenu;
 	$max;
 	while ($row = pg_fetch_row($content)){
 		if($row[0]==$salle){
 			$max=$row[2];
-			$contenu++;
+			$contenu=$row[3];
 		}
 	}
 	return (($contenu/$max)*100);
@@ -79,4 +79,20 @@ function contenuSalle($data,$salle){
 
 <?php 
 }
+
+function listePaletteseule(){
+	$data = getpaletteSeule();
+	while ($row = pg_fetch_row($data)){
+		print("<option value=".$row[0].">".$row[0]."</option>");
+	}
+}
+
+function choixSalle(){
+	$list = listeSalle();
+	foreach($list as $elem){
+		print("<option value=".$elem.">".$elem."</option>");
+	} 
+}
+
+
 ?>
